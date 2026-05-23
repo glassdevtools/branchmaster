@@ -901,9 +901,11 @@ type TerminalPaneResize = {
   terminalPaneElement: HTMLElement;
 };
 
+type BranchPointerDragType = "branch" | "tag" | "head" | "worktree";
+
 type BranchPointerDrag = {
   repoRoot: string;
-  gitRefType: "branch" | "tag" | "head";
+  gitRefType: BranchPointerDragType;
   refName: string;
   sourcePath: string | null;
   oldSha: string;
@@ -1816,6 +1818,7 @@ const readCommitBranchTarget = ({
 
 const BranchTags = ({
   refs,
+  worktrees,
   localBranches,
   commitSha,
   commitShortSha,
@@ -1831,6 +1834,7 @@ const BranchTags = ({
   finishBranchPointerDrag,
 }: {
   refs: string[];
+  worktrees: GitWorktree[];
   localBranches: string[];
   commitSha: string;
   commitShortSha: string;
@@ -1860,7 +1864,7 @@ const BranchTags = ({
     oldSubject,
   }: {
     event: DragEvent<HTMLElement>;
-    gitRefType: "branch" | "tag" | "head";
+    gitRefType: BranchPointerDragType;
     refName: string;
     sourcePath: string | null;
     oldSha: string;
@@ -1924,12 +1928,45 @@ const BranchTags = ({
     }),
   ];
 
-  if (orderedRefs.length === 0) {
+  if (orderedRefs.length === 0 && worktrees.length === 0) {
     return null;
   }
 
   return (
     <div className="commit-label-list">
+      {worktrees.map((worktree) => {
+        return (
+          <Badge
+            className="commit-ref commit-ref-head commit-ref-draggable"
+            variant="secondary"
+            draggable
+            key={`worktree:${worktree.path}`}
+            onDoubleClick={(event) => event.stopPropagation()}
+            onContextMenu={(event) =>
+              openCopyContextMenu(
+                event,
+                worktree.path,
+                "worktree path",
+                "Failed to copy worktree path.",
+              )
+            }
+            onDragStart={(event) => {
+              startBranchPointerDrag({
+                event,
+                gitRefType: "worktree",
+                refName: "Worktree",
+                sourcePath: worktree.path,
+                oldSha: commitSha,
+                oldShortSha: commitShortSha,
+                oldSubject: commitSubject,
+              });
+            }}
+            onDragEnd={finishBranchPointerDrag}
+          >
+            <span>Worktree</span>
+          </Badge>
+        );
+      })}
       {orderedRefs.map((ref) => {
         const isHead = readIsHeadRef(ref);
         const refName = isHead ? "HEAD" : cleanRefName(ref);
@@ -2460,7 +2497,7 @@ const CommitHistoryRow = ({
     oldSubject,
   }: {
     event: DragEvent<HTMLElement>;
-    gitRefType: "branch" | "tag" | "head";
+    gitRefType: BranchPointerDragType;
     refName: string;
     sourcePath: string | null;
     oldSha: string;
@@ -2968,6 +3005,7 @@ const CommitHistoryRow = ({
         {row.isCommitRow || rowRefs.length > 0 || worktreesForRow.length > 0 ? (
           <BranchTags
             refs={rowRefs}
+            worktrees={worktreesForRow}
             localBranches={rowLocalBranches}
             commitSha={commit.sha}
             commitShortSha={commit.shortSha}
@@ -5289,7 +5327,7 @@ const CommitHistory = ({
     oldSubject,
   }: {
     event: DragEvent<HTMLElement>;
-    gitRefType: "branch" | "tag" | "head";
+    gitRefType: BranchPointerDragType;
     refName: string;
     sourcePath: string | null;
     oldSha: string;
@@ -5307,19 +5345,23 @@ const CommitHistory = ({
     };
 
     event.stopPropagation();
-    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.effectAllowed =
+      gitRefType === "worktree" ? "none" : "move";
     event.dataTransfer.setData("text/plain", refName);
     branchPointerDragRef.current = nextBranchPointerDrag;
     setBranchPointerDropTargetRowId(null);
-    trackDesktopAction({
-      eventName:
-        gitRefType === "head"
-          ? "head_dragged"
-          : gitRefType === "branch"
-            ? "branch_dragged"
-            : "tag_dragged",
-      properties: {},
-    });
+
+    if (gitRefType !== "worktree") {
+      trackDesktopAction({
+        eventName:
+          gitRefType === "head"
+            ? "head_dragged"
+            : gitRefType === "branch"
+              ? "branch_dragged"
+              : "tag_dragged",
+        properties: {},
+      });
+    }
   };
   const finishBranchPointerDrag = () => {
     branchPointerDragRef.current = null;
@@ -5335,6 +5377,11 @@ const CommitHistory = ({
     const activeBranchPointerDrag = branchPointerDragRef.current;
 
     if (activeBranchPointerDrag === null) {
+      return;
+    }
+
+    if (activeBranchPointerDrag.gitRefType === "worktree") {
+      setBranchPointerDropTargetRowId(null);
       return;
     }
 
@@ -5399,6 +5446,11 @@ const CommitHistory = ({
     const activeBranchPointerDrag = branchPointerDragRef.current;
 
     if (activeBranchPointerDrag === null) {
+      finishBranchPointerDrag();
+      return;
+    }
+
+    if (activeBranchPointerDrag.gitRefType === "worktree") {
       finishBranchPointerDrag();
       return;
     }

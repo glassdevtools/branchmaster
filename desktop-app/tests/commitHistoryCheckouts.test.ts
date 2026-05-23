@@ -118,8 +118,15 @@ test("shows the same branch on clean and dirty duplicate checkout rows", () => {
     }).map((checkout) => ({
       path: checkout.path,
       branch: checkout.branch,
+      worktreePath: checkout.worktree?.path,
     })),
-    [{ path: "/repo/clean-topic", branch: "topic" }],
+    [
+      {
+        path: "/repo/clean-topic",
+        branch: "topic",
+        worktreePath: "/repo/clean-topic",
+      },
+    ],
   );
   assert.deepEqual(
     readCommitHistoryRowCheckouts({
@@ -128,8 +135,15 @@ test("shows the same branch on clean and dirty duplicate checkout rows", () => {
     }).map((checkout) => ({
       path: checkout.path,
       branch: checkout.branch,
+      worktreePath: checkout.worktree?.path,
     })),
-    [{ path: "/repo/dirty-topic", branch: "topic" }],
+    [
+      {
+        path: "/repo/dirty-topic",
+        branch: "topic",
+        worktreePath: "/repo/dirty-topic",
+      },
+    ],
   );
 });
 
