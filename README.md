@@ -34,6 +34,6 @@ Download BranchMaster on our website: https://branchmaster.dev.
 		src="./website/src/assets/product-screenshot.png"
 		alt="BranchMaster app showing Codex chats, worktrees, branches, and Git history"
 		width="1000"
-		height="701"
+		height="692"
 	/>
 </div>
