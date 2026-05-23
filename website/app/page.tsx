@@ -53,16 +53,16 @@ const ChatToken = () => (
 
 const featureItems = [
   {
+    title: "Everything on a single page",
+    descriptionLines: [
+      "Unlike other git visualizers, see all your worktrees - even ones with no commits or branch tags yet. Finally get a complete overview of everything your agents are doing.",
+    ],
+  },
+  {
     title: "Git power tools",
     descriptionLines: [
       "Commit, branch, merge, and push without leaving the app.",
       "We let you move branches by simply dragging, merge by clicking the row you'd like, and get Pull/Push summaries that actually make sense.",
-    ],
-  },
-  {
-    title: "Everything on a single page",
-    descriptionLines: [
-      "Unlike other git visualizers, see all your worktrees - even ones with no commits or branch tags yet. Finally get a complete overview of everything your agents are doing.",
     ],
   },
   {
