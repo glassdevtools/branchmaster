@@ -16,11 +16,13 @@ const githubButtonClassName = "githubButton";
 const featureTokenClassName =
   "inline-flex h-[1.45em] items-center gap-1 rounded border px-[5px] align-middle text-[0.9em] font-[720] leading-none whitespace-nowrap";
 const featureTokenBranchClassName = `${featureTokenClassName} border-[#acb9ca] bg-[#eaf1ff] text-[#162d54]`;
-const featureTokenChatClassName = `${featureTokenClassName} border-[#d4dae3] bg-[#eef0f3] text-[#343a43]`;
-const featureTokenAgentClassName = `${featureTokenClassName} border-[#d4dae3] bg-transparent text-[#343a43]`;
+const featureInlineTokenClassName =
+  "inline-flex h-[1.45em] items-center gap-1 align-middle text-[0.9em] font-[720] leading-none whitespace-nowrap text-[#343a43]";
+const featureTokenChatIconClassName =
+  "inline-flex h-[1.45em] w-[1.45em] items-center justify-center rounded border border-[#d4dae3] bg-[#eef0f3]";
 
 const AgentToken = () => (
-  <span className={featureTokenAgentClassName}>
+  <span className={featureInlineTokenClassName}>
     {/* dot */}
     <span
       className="relative block size-[13px] shrink-0 overflow-visible"
@@ -37,16 +39,18 @@ const BranchToken = () => (
 );
 
 const ChatToken = () => (
-  <span className={featureTokenChatClassName}>
-    <Image
-      className="block size-[13px] shrink-0"
-      src={codexChatIcon}
-      width={13}
-      height={13}
-      alt=""
-      aria-hidden="true"
-      draggable={false}
-    />
+  <span className={featureInlineTokenClassName}>
+    <span className={featureTokenChatIconClassName}>
+      <Image
+        className="block size-[13px] shrink-0"
+        src={codexChatIcon}
+        width={13}
+        height={13}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+      />
+    </span>
     <span>chats</span>
   </span>
 );
