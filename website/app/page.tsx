@@ -87,26 +87,6 @@ const questionItems = [
     Which <ChatToken /> are on which <BranchToken />?
   </>,
 ];
-const faqItems = [
-  {
-    question: "What are BranchMaster's core features?",
-    answer: [
-      "BranchMaster is a Git visualizer that also:",
-      "- Shows you where your agents are.",
-      "- Suggests actions to take like commit/merge/push.",
-    ],
-  },
-  {
-    question: "How should I use it?",
-    answer: [
-      "Start a bunch of parallel worktrees in Codex. When you're ready to merge them, open BranchMaster and switch to a branch by double clicking. Then follow the suggestions in the Graph column to branch, commit, merge, and push.",
-    ],
-  },
-  {
-    question: "What AI tools does it support?",
-    answer: "Codex and OpenCode. We may support more tools in the future.",
-  },
-];
 
 const HomePage = () => {
   return (
@@ -255,32 +235,6 @@ const HomePage = () => {
                 key={`question-${index}`}
               >
                 {questionItem}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section
-        className="contentSection faqSection"
-        aria-labelledby="faq-title"
-      >
-        <div className="sectionInner">
-          <div className="sectionHeader">
-            <h2 id="faq-title">FAQs</h2>
-          </div>
-          <ul className="faqList">
-            {faqItems.map((faqItem) => (
-              <li key={faqItem.question}>
-                <details>
-                  <summary>{faqItem.question}</summary>
-                  {(typeof faqItem.answer === "string"
-                    ? [faqItem.answer]
-                    : faqItem.answer
-                  ).map((answerParagraph) => (
-                    <p key={answerParagraph}>{answerParagraph}</p>
-                  ))}
-                </details>
               </li>
             ))}
           </ul>
