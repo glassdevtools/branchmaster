@@ -59,7 +59,7 @@ const featureItems = [
   {
     title: "Everything on a single page",
     descriptionLines: [
-      "Unlike other git visualizers, see all your worktrees - even ones with no commits or branch tags yet. Finally get a complete overview of everything your agents are doing.",
+      "Unlike other Git visualizers, see all your worktrees - even ones with no commits or branch tags yet. Finally get a complete overview of everything your agents are doing.",
     ],
   },
   {
