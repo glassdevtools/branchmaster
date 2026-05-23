@@ -66,7 +66,7 @@ const featureItems = [
     title: "Git power tools",
     descriptionLines: [
       "Commit, branch, merge, and push without leaving the app.",
-      "We let you move branches by simply dragging, merge by clicking the row you'd like, and get Pull/Push summaries that actually make sense.",
+      "We let you move branches by dragging, merge by clicking the row you'd like, and get Pull/Push summaries that actually make sense.",
     ],
   },
   {
