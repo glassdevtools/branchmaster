@@ -16,8 +16,6 @@ const githubButtonClassName = "githubButton";
 const featureTokenClassName =
   "inline-flex h-[1.45em] items-center gap-1 rounded border px-[5px] align-middle text-[0.9em] font-[720] leading-none whitespace-nowrap";
 const featureTokenBranchClassName = `${featureTokenClassName} border-[#acb9ca] bg-[#eaf1ff] text-[#162d54]`;
-const featureInlineTokenClassName =
-  "inline-flex h-[1.45em] items-center gap-1 align-middle text-[0.9em] font-[720] leading-none whitespace-nowrap text-[#343a43]";
 const featureTokenChatIconClassName =
   "inline-flex h-[1.45em] w-[1.45em] items-center justify-center rounded border border-[#d4dae3] bg-[#eef0f3]";
 
@@ -26,19 +24,16 @@ const BranchToken = () => (
 );
 
 const ChatToken = () => (
-  <span className={featureInlineTokenClassName}>
-    <span className={featureTokenChatIconClassName}>
-      <Image
-        className="block size-[13px] shrink-0"
-        src={codexChatIcon}
-        width={13}
-        height={13}
-        alt=""
-        aria-hidden="true"
-        draggable={false}
-      />
-    </span>
-    <span>chats</span>
+  <span className={featureTokenChatIconClassName}>
+    <Image
+      className="block size-[13px] shrink-0"
+      src={codexChatIcon}
+      width={13}
+      height={13}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+    />
   </span>
 );
 
@@ -73,7 +68,7 @@ const questionItems = [
   <>Which chats still need to be merged in?</>,
   <>Which agents have changes to review?</>,
   <>
-    Which <ChatToken /> are on which <BranchToken />?
+    Which <ChatToken /> chats are on which <BranchToken />?
   </>,
 ];
 
