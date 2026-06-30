@@ -231,7 +231,7 @@ const HomePage = () => {
       <section className="bottomCta" aria-labelledby="cta-title">
         <div className="bottomCtaInner">
           <h2 id="cta-title">Save time in Codex</h2>
-          <p>Finally get a full picture of what your agents are doing.</p>
+          <p>Finally get a full picture of your agents.</p>
           <div className="hero__actions bottomCtaActions">
             <ClientDownloadLink
               className={ctaDownloadButtonClassName}
