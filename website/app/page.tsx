@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import codexChatIcon from "../src/assets/codex-chat-icon.png";
 import defaultAppIcon from "../src/assets/default-app-icon.png";
 import productScreenshot from "../src/assets/product-screenshot.png";
+import productScreenshotSecondary from "../src/assets/product-screenshot-secondary.png";
 
 const repoUrl = "https://github.com/glassdevtools/branchmaster";
 const ctaDownloadButtonClassName = "ctaButton ctaButtonDownload";
@@ -161,6 +162,15 @@ const HomePage = () => {
               alt="BranchMaster app showing Codex chats, branches, worktrees, changed files, and Git history"
               sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1128px) calc(100vw - 48px), 1080px"
               preload
+              placeholder="blur"
+              draggable={false}
+            />
+          </figure>
+          <figure className="productPhoto">
+            <Image
+              src={productScreenshotSecondary}
+              alt="BranchMaster app showing worktree labels, Codex chats, branch history, and commit details"
+              sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1128px) calc(100vw - 48px), 1080px"
               placeholder="blur"
               draggable={false}
             />

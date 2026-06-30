@@ -426,6 +426,10 @@ h1.heroTitle {
   margin: 0;
 }
 
+.productPhoto + .productPhoto {
+  margin-top: 24px;
+}
+
 .productPhoto img {
   display: block;
   width: 100%;
