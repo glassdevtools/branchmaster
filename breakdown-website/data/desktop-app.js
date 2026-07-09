@@ -413,7 +413,7 @@ window.breakdownWebsiteData.desktopApp = {
       usedBy:
         "Dashboard thread list, thread status notifications, open chat URLs",
       neededOutsideRepo:
-        "A working Codex install. macOS checks /Applications/Codex.app/Contents/Resources/codex, otherwise it runs codex from PATH.",
+        "A working Codex install. macOS checks /Applications/ChatGPT.app/Contents/Resources/codex, otherwise it runs codex from PATH.",
       expectedSource: "User machine.",
     },
     {

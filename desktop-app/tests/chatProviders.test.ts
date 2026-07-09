@@ -92,7 +92,7 @@ test("reads the Codex project open command", () => {
     }),
     {
       type: "command",
-      command: "/Applications/Codex.app/Contents/MacOS/Codex",
+      command: "/Applications/ChatGPT.app/Contents/MacOS/ChatGPT",
       args: ["--open-project", "/tmp/project-one"],
     },
   );

@@ -6897,7 +6897,7 @@ const CommitHistory = ({
           description={
             headMoveConfirmation === null
               ? ""
-              : `Are you sure you want to checkout to ${headMoveConfirmation.targetText}?`
+              : `Are you sure you want to check out ${headMoveConfirmation.targetText}?`
           }
           confirmButtonText="Move HEAD"
           confirmButtonVariant="default"

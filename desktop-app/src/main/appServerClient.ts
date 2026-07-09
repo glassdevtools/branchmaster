@@ -34,7 +34,7 @@ export type AppServerClient = {
 };
 
 const CODEX_DARWIN_COMMAND_PATH =
-  "/Applications/Codex.app/Contents/Resources/codex";
+  "/Applications/ChatGPT.app/Contents/Resources/codex";
 // TODO: AI-PICKED-VALUE: The temp cache directory lets dev and packaged builds reuse one copied Codex binary per installed app version.
 const CODEX_DARWIN_COMMAND_CACHE_DIR = join(tmpdir(), "branchmaster-codex-cli");
 // TODO: AI-PICKED-VALUE: One second is enough for a PATH lookup without slowing settings or dashboard startup when Codex is absent.

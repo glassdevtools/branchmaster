@@ -160,7 +160,7 @@ window.breakdownWebsiteData.productSurface = {
       neededOutsideRepo:
         "Codex app or codex CLI must be installed and able to run codex app-server.",
       expectedSource:
-        "User machine. macOS packaged installs prefer /Applications/Codex.app/Contents/Resources/codex when it exists.",
+        "User machine. macOS packaged installs prefer /Applications/ChatGPT.app/Contents/Resources/codex when it exists.",
     },
     {
       product: "GitHub CLI",

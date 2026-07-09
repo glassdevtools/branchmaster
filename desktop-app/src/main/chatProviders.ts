@@ -54,7 +54,7 @@ export type ChatProviderProjectOpenTarget =
   | { type: "url"; url: string };
 
 const CODEX_DARWIN_PROJECT_OPEN_COMMAND =
-  "/Applications/Codex.app/Contents/MacOS/Codex";
+  "/Applications/ChatGPT.app/Contents/MacOS/ChatGPT";
 const CODEX_PROJECT_OPEN_ARG = "--open-project";
 
 const nodePathInfoReader: PathInfoReader = {
