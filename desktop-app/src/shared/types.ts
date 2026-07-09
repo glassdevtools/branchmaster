@@ -301,6 +301,13 @@ export type BranchMasterApi = {
     request: DashboardReadRequest,
   ) => Promise<DashboardData | null>;
   readDashboardAfterGitMutation: () => Promise<DashboardData>;
+  logRendererError: (rendererError: {
+    message: string;
+    source: string;
+    stack: string | null;
+    componentStack?: string | null;
+  }) => Promise<void>;
+  readDiagnosticsLog: () => Promise<string>;
   readRepoList: () => Promise<string[]>;
   addRepoFromDialog: () => Promise<string | null>;
   removeRepo: (repoRoot: string) => Promise<void>;

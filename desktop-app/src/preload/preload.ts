@@ -52,6 +52,12 @@ const api: BranchMasterApi = {
 
     return dashboardData;
   },
+  logRendererError: async (rendererError) => {
+    await ipcRenderer.invoke("diagnostics:logRendererError", rendererError);
+  },
+  readDiagnosticsLog: async () => {
+    return await ipcRenderer.invoke("diagnostics:readLog");
+  },
   readRepoList: async () => {
     return await ipcRenderer.invoke("repos:readList");
   },

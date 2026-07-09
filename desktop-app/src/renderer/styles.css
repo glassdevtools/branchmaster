@@ -430,6 +430,70 @@ textarea,
   background: #f4f6f8;
 }
 
+.error-boundary-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f4f6f8;
+}
+
+.error-boundary-card {
+  width: min(560px, 100%);
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 24px;
+  border: 1px solid #d9dee6;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.error-boundary-title {
+  margin: 0;
+  color: #b42318;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.error-boundary-message {
+  margin: 0;
+  color: #374151;
+  font-size: 13px;
+  line-height: 1.45;
+  user-select: text;
+}
+
+.error-boundary-stack {
+  margin: 0;
+  max-height: 260px;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f4f6f8;
+  color: #5f6670;
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  user-select: text;
+}
+
+.error-boundary-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.error-boundary-reload {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 650;
+}
+
 .electron-api-missing-card {
   width: min(420px, 100%);
   gap: 10px;

@@ -55,6 +55,8 @@ import {
   readDashboardDataAfterGitMutation,
 } from "./dashboard";
 import { createDashboardRefreshCoordinator } from "./dashboardRefresh";
+import { createDiagnosticsLogger } from "./diagnosticsLog";
+import type { DiagnosticsLogger } from "./diagnosticsLog";
 import { readDetectedRepoRoots, resetOriginFetchThrottle } from "./gitData";
 import { createRepoListStore } from "./repoListStore";
 import type { RepoListStore } from "./repoListStore";
@@ -102,6 +104,28 @@ const codexThreadStatusOfId: {
 } = {};
 // TODO: AI-PICKED-VALUE: This is large enough for normal loaded Codex thread counts without making one app-server request too large.
 const APP_SERVER_LOADED_THREAD_PAGE_SIZE = 200;
+// TODO: AI-PICKED-VALUE: Sampling renderer memory once a minute shows a slow leak over hours without noticeable overhead.
+const RENDERER_MEMORY_SAMPLE_INTERVAL_MS = 60_000;
+// TODO: AI-PICKED-VALUE: Logging only when renderer memory tops 1.5 GB flags heap growth well before the ~2-4 GB OOM ceiling.
+const RENDERER_MEMORY_WARN_BYTE_COUNT = 1_500 * 1024 * 1024;
+// The diagnostics logger is created lazily so it can use the user data path after the app is ready.
+let diagnosticsLogger: DiagnosticsLogger | null = null;
+const readDiagnosticsLogger = () => {
+  if (diagnosticsLogger === null) {
+    diagnosticsLogger = createDiagnosticsLogger({
+      userDataPath: app.getPath("userData"),
+    });
+  }
+
+  return diagnosticsLogger;
+};
+const logDiagnosticsEvent = (event: {
+  category: string;
+  message: string;
+  detail?: { [key: string]: unknown };
+}) => {
+  void readDiagnosticsLogger().logDiagnosticsEvent(event);
+};
 const { autoUpdater } = electronUpdater;
 const appUpdateController = createAppUpdateController({ app, autoUpdater });
 const sendTerminalSessionEvent = (
@@ -175,6 +199,99 @@ const createMainWindow = () => {
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
   });
+
+  // Recent auto-reloads are tracked so a crash that recurs immediately stops looping and stays visible for diagnosis.
+  const recentReloadTimes: number[] = [];
+  const RELOAD_LOOP_WINDOW_MS = 60_000;
+  const RELOAD_LOOP_LIMIT = 3;
+  const reloadAfterCrash = () => {
+    const now = Date.now();
+
+    while (
+      recentReloadTimes.length > 0 &&
+      now - recentReloadTimes[0] > RELOAD_LOOP_WINDOW_MS
+    ) {
+      recentReloadTimes.shift();
+    }
+
+    if (recentReloadTimes.length >= RELOAD_LOOP_LIMIT) {
+      logDiagnosticsEvent({
+        category: "renderer",
+        message:
+          "Renderer crashed repeatedly; stopping auto-reload to avoid a crash loop.",
+      });
+      return;
+    }
+
+    recentReloadTimes.push(now);
+
+    if (!mainWindow.isDestroyed()) {
+      mainWindow.webContents.reload();
+    }
+  };
+
+  mainWindow.webContents.on("render-process-gone", (_event, details) => {
+    logDiagnosticsEvent({
+      category: "renderer",
+      message: "Renderer process gone.",
+      detail: { reason: details.reason, exitCode: details.exitCode },
+    });
+
+    // A clean exit is normal shutdown; every other reason left the window blank and should reload.
+    if (details.reason !== "clean-exit") {
+      reloadAfterCrash();
+    }
+  });
+  mainWindow.webContents.on("unresponsive", () => {
+    logDiagnosticsEvent({
+      category: "renderer",
+      message: "Renderer became unresponsive.",
+    });
+  });
+  mainWindow.webContents.on("preload-error", (_event, preloadPath, error) => {
+    logDiagnosticsEvent({
+      category: "renderer",
+      message: "Preload script error.",
+      detail: { preloadPath, error: error.message },
+    });
+  });
+
+  // Sampling renderer heap size over time distinguishes a real leak (climbing) from harmless rebuild churn (flat).
+  const rendererMemorySampleInterval = setInterval(() => {
+    if (mainWindow.isDestroyed()) {
+      return;
+    }
+
+    void mainWindow.webContents
+      .executeJavaScript(
+        "performance.memory ? performance.memory.usedJSHeapSize : null",
+        true,
+      )
+      .then((usedJsHeapByteCount: unknown) => {
+        if (
+          typeof usedJsHeapByteCount !== "number" ||
+          usedJsHeapByteCount < RENDERER_MEMORY_WARN_BYTE_COUNT
+        ) {
+          return;
+        }
+
+        logDiagnosticsEvent({
+          category: "memory",
+          message: "Renderer heap is large.",
+          detail: {
+            usedJsHeapMegabyteCount: Math.round(
+              usedJsHeapByteCount / (1024 * 1024),
+            ),
+          },
+        });
+      })
+      .catch(() => {});
+  }, RENDERER_MEMORY_SAMPLE_INTERVAL_MS);
+
+  mainWindow.on("closed", () => {
+    clearInterval(rendererMemorySampleInterval);
+  });
+
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     openExternalUrlFromWindow(url);
     return { action: "deny" };
@@ -959,6 +1076,30 @@ ipcMain.handle("dashboard:readAfterGitMutation", async () => {
     "afterGitMutation",
     null,
   );
+});
+
+ipcMain.handle("diagnostics:logRendererError", (_event, value: unknown) => {
+  const errorValue = isObject(value) ? value : {};
+
+  logDiagnosticsEvent({
+    category: "renderer",
+    message:
+      typeof errorValue.message === "string"
+        ? errorValue.message
+        : "Renderer reported an error.",
+    detail: {
+      source: typeof errorValue.source === "string" ? errorValue.source : null,
+      stack: typeof errorValue.stack === "string" ? errorValue.stack : null,
+      componentStack:
+        typeof errorValue.componentStack === "string"
+          ? errorValue.componentStack
+          : null,
+    },
+  });
+});
+
+ipcMain.handle("diagnostics:readLog", async () => {
+  return await readDiagnosticsLogger().readDiagnosticsLog();
 });
 
 ipcMain.handle("repos:readList", async () => {
