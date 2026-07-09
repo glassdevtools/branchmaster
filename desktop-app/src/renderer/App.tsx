@@ -7960,7 +7960,6 @@ const BranchMasterDesktopApp = () => {
                           "repo-sidebar-item-selected",
                       )}
                       type="button"
-                      title={repoRoot}
                       key={repoRoot}
                       onClick={() => changeSelectedRepoRoot(repoRoot)}
                     >
@@ -8372,7 +8371,7 @@ const BranchMasterDesktopApp = () => {
               }}
             >
               <Trash2 size={10} strokeWidth={1.75} />
-              <span>Remove from sidebar</span>
+              <span>Remove</span>
             </Button>
           </div>
         )}
@@ -8599,7 +8598,6 @@ const BranchMasterDesktopApp = () => {
                       "repo-sidebar-item-selected",
                   )}
                   type="button"
-                  title={repo.root}
                   key={repo.root}
                   onClick={() => changeSelectedRepoRoot(repo.root)}
                   onContextMenu={(event) =>
