@@ -33,7 +33,7 @@ const config = {
         arch: ["universal"],
       },
     ],
-    icon: "packaging/macos/icon.icon",
+    icon: "packaging/macos/generated-icons/icon.icns",
     // node-pty ships both mac architecture packages in each app build, so universal merging should leave those prebuilds as separate files.
     x64ArchFiles:
       "Contents/Resources/app.asar.unpacked/node_modules/@lydell/node-pty-*/prebuilds/**/*",
