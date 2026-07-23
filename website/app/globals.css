@@ -140,10 +140,10 @@ img {
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family:
-    "Arial Black",
     "Avenir Next",
+    "Helvetica Neue",
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -151,8 +151,9 @@ img {
     "Segoe UI",
     sans-serif;
   font-size: 1.05rem;
-  font-weight: 900;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
   outline-offset: 5px;
 }
 
@@ -365,7 +366,7 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 120px 0;
+  padding: 88px 0 112px;
 }
 
 h1,
@@ -374,39 +375,17 @@ p {
 }
 
 h1.heroTitle {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  max-width: 880px;
-  margin: 0 auto 12px;
-  color: #101410;
-  font-family:
-    "Avenir Next",
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  font-size: clamp(2.2rem, 4.9vw, 3.6rem);
-  font-weight: 760;
-  line-height: 1.1;
-  letter-spacing: 0;
-  text-wrap: balance;
+  margin: 0 auto 28px;
 }
 
-.heroTitleIcon {
-  display: inline-flex;
-  flex: 0 0 auto;
-  width: 60px;
-  height: 60px;
-}
-
-.heroTitleIcon img {
+.heroAppIcon {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: min(220px, 62vw);
+  height: auto;
+  aspect-ratio: 1;
   object-fit: contain;
 }
 
@@ -669,7 +648,7 @@ h1.heroTitle {
   }
 
   .heroIntro {
-    padding: 120px 0;
+    padding: 72px 0 96px;
   }
 
   .hero__actions {

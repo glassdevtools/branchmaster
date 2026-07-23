@@ -120,17 +120,20 @@ const HomePage = () => {
       <section className="hero" aria-labelledby="hero-title">
         <div className="heroInner">
           <div className="heroIntro">
-            <h1 className="heroTitle" id="hero-title">
-              <span className="heroTitleIcon" aria-hidden="true">
-                <Image
-                  src={defaultAppIcon}
-                  width={72}
-                  height={72}
-                  alt=""
-                  draggable={false}
-                />
-              </span>
-              <span>BranchTracker</span>
+            <h1
+              className="heroTitle"
+              id="hero-title"
+              aria-label="BranchTracker"
+            >
+              <Image
+                className="heroAppIcon"
+                src={defaultAppIcon}
+                width={220}
+                height={220}
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+              />
             </h1>
             <p className="heroSubtext">
               See your worktrees, chats, and branches, all on one page.
