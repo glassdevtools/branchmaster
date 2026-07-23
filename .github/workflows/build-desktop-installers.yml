@@ -72,7 +72,8 @@ jobs:
     name: Build macOS installer
     needs: read-package-release-status
     if: needs.read-package-release-status.outputs.should_publish == 'true'
-    runs-on: macos-26
+    # The macOS 26 runner produced an invalid app signature even though notarization succeeded, so releases stay on macOS 15 until its signing toolchain is fixed.
+    runs-on: macos-15
     env:
       CSC_LINK: ${{ secrets.APPLE_CERTIFICATE }}
       CSC_KEY_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
@@ -135,6 +136,11 @@ jobs:
 
       - name: Build signed macOS installer
         run: npm run dist:mac --workspace desktop-app -- --publish never
+
+      - name: Verify macOS app signature
+        run: |
+          codesign --verify --deep --strict --verbose=2 desktop-app/dist/mac-universal/BranchTracker.app
+          spctl --assess --type execute --verbose=4 desktop-app/dist/mac-universal/BranchTracker.app
 
       - name: Upload macOS installer
         uses: actions/upload-artifact@v4
