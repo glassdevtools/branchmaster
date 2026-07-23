@@ -8,7 +8,7 @@ import { readOrCreateAnalyticsInstallId } from "../src/main/analyticsStore";
 const withUserDataPath = async (
   runTest: (userDataPath: string) => Promise<void>,
 ) => {
-  const userDataPath = await mkdtemp(join(tmpdir(), "branchmaster-analytics-"));
+  const userDataPath = await mkdtemp(join(tmpdir(), "branchtracker-analytics-"));
 
   try {
     await runTest(userDataPath);

@@ -8,7 +8,7 @@ import { createRepoListStore } from "../src/main/repoListStore";
 const withUserDataPath = async (
   runTest: (userDataPath: string) => Promise<void>,
 ) => {
-  const userDataPath = await mkdtemp(join(tmpdir(), "branchmaster-repo-list-"));
+  const userDataPath = await mkdtemp(join(tmpdir(), "branchtracker-repo-list-"));
 
   try {
     await runTest(userDataPath);

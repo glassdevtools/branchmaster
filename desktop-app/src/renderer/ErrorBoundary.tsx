@@ -11,8 +11,8 @@ type ErrorBoundaryState = {
 
 const logRendererError = (error: Error, componentStack: string | null) => {
   // The boundary reports to the main process so a render crash leaves a breadcrumb even after reload.
-  if (typeof window !== "undefined" && window.branchmaster !== undefined) {
-    void window.branchmaster
+  if (typeof window !== "undefined" && window.branchtracker !== undefined) {
+    void window.branchtracker
       .logRendererError({
         message: error.message,
         source: "react-error-boundary",

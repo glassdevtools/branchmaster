@@ -1,5 +1,5 @@
 {
-  "name": "branchmaster-repo",
+  "name": "branchtracker-repo",
   "private": true,
   "workspaces": [
     "desktop-app",

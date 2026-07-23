@@ -1,6 +1,6 @@
-# BranchMaster Breakdown Website
+# BranchTracker Breakdown Website
 
-Static UI state breakdown for the BranchMaster product surfaces.
+Static UI state breakdown for the BranchTracker product surfaces.
 
 Open `index.html` directly in a browser, or run from the repo root:
 

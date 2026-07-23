@@ -12,7 +12,7 @@ import {
 import type { AppServerClient } from "../src/main/appServerClient";
 
 const createTempRolloutFile = (text: string) => {
-  const dir = mkdtempSync(join(tmpdir(), "branchmaster-codex-rollout-"));
+  const dir = mkdtempSync(join(tmpdir(), "branchtracker-codex-rollout-"));
   const path = join(dir, "rollout.jsonl");
 
   writeFileSync(path, text);

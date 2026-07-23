@@ -138,7 +138,7 @@ const commitRepoFile = async ({
 
 const createRepo = async () => {
   const repoRoot = await realpath(
-    await mkdtemp(join(tmpdir(), "branchmaster-git-")),
+    await mkdtemp(join(tmpdir(), "branchtracker-git-")),
   );
 
   await runGit({
@@ -151,7 +151,7 @@ const createRepo = async () => {
   });
   await runGit({
     cwd: repoRoot,
-    args: ["config", "user.name", "BranchMaster Tests"],
+    args: ["config", "user.name", "BranchTracker Tests"],
   });
 
   return { repoRoot };
@@ -169,7 +169,7 @@ const withRepo = async (runTest: ({ repoRoot }: GitRepo) => Promise<void>) => {
 
 const createRepoWithOrigin = async () => {
   const parentRoot = await realpath(
-    await mkdtemp(join(tmpdir(), "branchmaster-git-origin-")),
+    await mkdtemp(join(tmpdir(), "branchtracker-git-origin-")),
   );
   const originRoot = join(parentRoot, "origin.git");
   const repoRoot = join(parentRoot, "repo");
@@ -185,7 +185,7 @@ const createRepoWithOrigin = async () => {
   });
   await runGit({
     cwd: repoRoot,
-    args: ["config", "user.name", "BranchMaster Tests"],
+    args: ["config", "user.name", "BranchTracker Tests"],
   });
   const mainSha = await commitRepoFile({
     repoRoot,
@@ -515,7 +515,7 @@ test("deeply reads only the focused repo graph", async () => {
 
 test("reports Git errors when Codex folders cannot seed any repos", async () => {
   const parentRoot = await mkdtemp(
-    join(tmpdir(), "branchmaster-missing-repo-"),
+    join(tmpdir(), "branchtracker-missing-repo-"),
   );
   const missingRepoRoot = join(parentRoot, "missing");
 
@@ -752,7 +752,7 @@ test("reads local branches as branch sync changes when origin tracking refs are 
         "remote",
         "set-url",
         "origin",
-        "/tmp/branchmaster-missing-origin.git",
+        "/tmp/branchtracker-missing-origin.git",
       ],
     });
     const { repos, warnings, gitErrors } = await readRepoGraphs({

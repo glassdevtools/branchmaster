@@ -30,7 +30,7 @@ window.breakdownWebsiteData.desktopApp = {
   highLevelVariables: [
     {
       variable: "electronApi",
-      source: "window.branchmaster from preload.ts",
+      source: "window.branchtracker from preload.ts",
       states: "missing, available",
       notes:
         "If the preload API is missing, the renderer shows a desktop UI fallback instead of the main app.",
@@ -159,7 +159,7 @@ window.breakdownWebsiteData.desktopApp = {
       name: "DesktopEntryState",
       typeScript: `type DesktopEntryState =
   | { type: "missingElectronApi"; message: "Open this app from Electron" }
-  | { type: "electronApiReady"; api: "window.branchmaster" };`,
+  | { type: "electronApiReady"; api: "window.branchtracker" };`,
     },
     {
       name: "DesktopNavigationBoundaryState",
@@ -278,7 +278,7 @@ window.breakdownWebsiteData.desktopApp = {
 
   // -------------------------- UI flow ---------------
   flowchart: `flowchart TD
-  start["Desktop renderer starts"] --> api{"window.branchmaster exists?"}
+  start["Desktop renderer starts"] --> api{"window.branchtracker exists?"}
   api -->|No| missing["Electron API missing screen"]
   api -->|Yes| initial["Initial loading screen from index.html"]
   initial --> dashboardRead["Read dashboard from Codex and Git"]
@@ -747,7 +747,7 @@ window.breakdownWebsiteData.desktopApp = {
     {
       decision: "Never render web pages inside the desktop BrowserWindow.",
       reason:
-        "The desktop app depends on preload IPC and local app state. Web pages such as branchmaster.dev and GitHub are not desktop UI states.",
+        "The desktop app depends on preload IPC and local app state. Web pages such as branchtracker.com and GitHub are not desktop UI states.",
       carryOver:
         "New desktop links should use openExternalUrl or the main-process external navigation guards.",
     },

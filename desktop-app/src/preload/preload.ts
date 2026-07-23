@@ -19,7 +19,7 @@ import type {
   GitMoveBranchRequest,
   GitMoveTagRequest,
   GitSwitchBranchRequest,
-  BranchMasterApi,
+  BranchTrackerApi,
   OpenChatProviderPathRequest,
   OpenPathRequest,
   TerminalSessionEvent,
@@ -28,7 +28,7 @@ import type {
   TerminalSessionWriteRequest,
 } from "../shared/types";
 
-const api: BranchMasterApi = {
+const api: BranchTrackerApi = {
   readDashboard: async (request: DashboardReadRequest) => {
     const dashboardData: DashboardData = await ipcRenderer.invoke(
       "dashboard:read",
@@ -255,4 +255,4 @@ const api: BranchMasterApi = {
   },
 };
 
-contextBridge.exposeInMainWorld("branchmaster", api);
+contextBridge.exposeInMainWorld("branchtracker", api);

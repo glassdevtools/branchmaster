@@ -12,7 +12,7 @@ const APP_UPDATE_CHECK_INTERVAL_MS = 2 * 60 * 60 * 1000;
 const readAppUpdateErrorMessage = (error: unknown) => {
   return error instanceof Error
     ? error.message
-    : "Failed to update BranchMaster.";
+    : "Failed to update BranchTracker.";
 };
 
 export const createAppUpdateController = ({
@@ -104,7 +104,7 @@ export const createAppUpdateController = ({
       setAppUpdateStatus({ type: "ready", version: info.version });
     });
     autoUpdater.on("error", (error) => {
-      console.error("Failed to update BranchMaster.", error);
+      console.error("Failed to update BranchTracker.", error);
 
       if (appUpdateStatus.type !== "ready") {
         setAppUpdateStatus({

@@ -9,7 +9,7 @@ import defaultAppIcon from "../src/assets/default-app-icon.png";
 import productScreenshot from "../src/assets/product-screenshot.png";
 import productScreenshotSecondary from "../src/assets/product-screenshot-secondary.png";
 
-const repoUrl = "https://github.com/glassdevtools/branchmaster";
+const repoUrl = "https://github.com/glassdevtools/branchtracker";
 const ctaDownloadButtonClassName = "ctaButton ctaButtonDownload";
 const ctaGithubButtonClassName = "ctaButton ctaButtonGithub";
 const downloadButtonClassName = "downloadButton";
@@ -81,12 +81,12 @@ const HomePage = () => {
             draggable={false}
           />
           <span className="wordmarkText">
-            <span className="wordmarkTextBase">BranchMaster</span>
+            <span className="wordmarkTextBase">BranchTracker</span>
             <span
               className="wordmarkTextGradient transition-opacity duration-500 ease-out"
               aria-hidden="true"
             >
-              BranchMaster
+              BranchTracker
             </span>
           </span>
         </a>
@@ -130,7 +130,7 @@ const HomePage = () => {
                   draggable={false}
                 />
               </span>
-              <span>BranchMaster</span>
+              <span>BranchTracker</span>
             </h1>
             <p className="heroSubtext">
               See your worktrees, chats, and branches, all on one page.
@@ -159,7 +159,7 @@ const HomePage = () => {
           <figure className="productPhoto">
             <Image
               src={productScreenshot}
-              alt="BranchMaster app showing Codex chats, branches, worktrees, changed files, and Git history"
+              alt="BranchTracker app showing Codex chats, branches, worktrees, changed files, and Git history"
               sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1128px) calc(100vw - 48px), 1080px"
               preload
               placeholder="blur"
@@ -169,7 +169,7 @@ const HomePage = () => {
           <figure className="productPhoto">
             <Image
               src={productScreenshotSecondary}
-              alt="BranchMaster app showing worktree labels, Codex chats, branch history, and commit details"
+              alt="BranchTracker app showing worktree labels, Codex chats, branch history, and commit details"
               sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1128px) calc(100vw - 48px), 1080px"
               placeholder="blur"
               draggable={false}

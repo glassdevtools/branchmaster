@@ -20,11 +20,11 @@ const logRendererError = ({
   source: string;
   stack: string | null;
 }) => {
-  if (window.branchmaster === undefined) {
+  if (window.branchtracker === undefined) {
     return;
   }
 
-  void window.branchmaster
+  void window.branchtracker
     .logRendererError({ message, source, stack })
     .catch(() => {});
 };

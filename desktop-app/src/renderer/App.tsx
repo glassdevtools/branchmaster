@@ -201,7 +201,7 @@ const DASHBOARD_WARNING_TOAST_DURATION_MS = Infinity;
 const USER_GIT_UPDATE_TOAST_ID_PREFIX = "user-git-update";
 const DASHBOARD_WARNING_TOAST_ID_PREFIX = "dashboard-warning";
 const GITHUB_REPOSITORY_URL = packageInfo.repository.url.replace(/\.git$/, "");
-console.log("[BranchMaster renderer]", { version: packageInfo.version });
+console.log("[BranchTracker renderer]", { version: packageInfo.version });
 const DUPLICATE_CHECKOUT_BRANCH_WARNING =
   "This is checked out in multiple places, which often leads to confusion. We recommend adding a new branch here instead.";
 const COMMIT_GRAPH_ACTION_ICON_SIZE = 10;
@@ -849,7 +849,7 @@ const copyText = async ({
   errorMessage: string;
 }) => {
   try {
-    await window.branchmaster.copyText(text);
+    await window.branchtracker.copyText(text);
     toast.success("Copied!", {
       closeButton: true,
       description: <div className="copy-toast-value">{text}</div>,
@@ -2237,7 +2237,7 @@ const CommitThreadChatTags = ({
 
   const openThread = async (thread: ChatThread) => {
     try {
-      await window.branchmaster.openChatThread({
+      await window.branchtracker.openChatThread({
         providerId: thread.providerId,
         threadId: thread.id,
         cwd: thread.cwd,
@@ -3657,7 +3657,7 @@ const TerminalPane = ({
         fitTerminal();
         const { cols, rows } = readTerminalDimensions();
 
-        void window.branchmaster.resizeTerminalSession({
+        void window.branchtracker.resizeTerminalSession({
           cwd,
           cols,
           rows,
@@ -3665,7 +3665,7 @@ const TerminalPane = ({
       });
     };
     const resizeObserver = new ResizeObserver(resizeTerminal);
-    const removeTerminalSessionWatch = window.branchmaster.watchTerminalSession(
+    const removeTerminalSessionWatch = window.branchtracker.watchTerminalSession(
       (terminalSessionEvent) => {
         if (terminalSessionEvent.cwd !== cwd) {
           return;
@@ -3722,7 +3722,7 @@ const TerminalPane = ({
     resizeObserver.observe(terminalElement);
     terminal.focus();
     dataDisposable = terminal.onData((data) => {
-      void window.branchmaster
+      void window.branchtracker
         .writeTerminalSession({ cwd, data })
         .catch((error) => {
           const message =
@@ -3733,7 +3733,7 @@ const TerminalPane = ({
         });
     });
     resizeDisposable = terminal.onResize(({ cols, rows }) => {
-      void window.branchmaster.resizeTerminalSession({ cwd, cols, rows });
+      void window.branchtracker.resizeTerminalSession({ cwd, cols, rows });
     });
 
     animationFrameId = window.requestAnimationFrame(() => {
@@ -3742,7 +3742,7 @@ const TerminalPane = ({
 
       const { cols, rows } = readTerminalDimensions();
 
-      void window.branchmaster
+      void window.branchtracker
         .startTerminalSession({
           cwd,
           cols,
@@ -3874,7 +3874,7 @@ const TerminalPane = ({
             type="button"
             variant="ghost"
             onClick={() => {
-              void window.branchmaster
+              void window.branchtracker
                 .stopTerminalSession(terminalTarget.cwd)
                 .then(() => {
                   updateTerminalStatusState({
@@ -4517,7 +4517,7 @@ const CommitHistory = ({
   );
   useEffect(() => {
     let isDisposed = false;
-    const removeTerminalSessionWatch = window.branchmaster.watchTerminalSession(
+    const removeTerminalSessionWatch = window.branchtracker.watchTerminalSession(
       (terminalSessionEvent) => {
         switch (terminalSessionEvent.type) {
           case "data":
@@ -4541,7 +4541,7 @@ const CommitHistory = ({
       },
     );
 
-    void window.branchmaster
+    void window.branchtracker
       .readTerminalSessions()
       .then((terminalSessionSummaries) => {
         if (isDisposed) {
@@ -4643,7 +4643,7 @@ const CommitHistory = ({
 
     setRowDiffLoadState({ type: "loading" });
 
-    void window.branchmaster
+    void window.branchtracker
       .readGitDiff(rowDiffTarget.request)
       .then((gitDiff) => {
         if (shouldIgnore) {
@@ -5873,7 +5873,7 @@ const CommitHistory = ({
       "Created branch.",
       async () => {
         try {
-          await window.branchmaster.createGitRef({
+          await window.branchtracker.createGitRef({
             repoRoot: branchCreateTarget.repoRoot,
             gitRefType: "branch",
             name: branch,
@@ -5914,7 +5914,7 @@ const CommitHistory = ({
       async () => {
         try {
           if (commitChangesTarget.type === "createBranchAndCommit") {
-            await window.branchmaster.createGitBranch({
+            await window.branchtracker.createGitBranch({
               path: commitChangesTarget.path,
               branch: commitChangesTarget.branch,
               expectedHeadSha: commitChangesTarget.expectedHeadSha,
@@ -5925,14 +5925,14 @@ const CommitHistory = ({
             });
           }
 
-          const newSha = await window.branchmaster.commitAllGitChanges({
+          const newSha = await window.branchtracker.commitAllGitChanges({
             path: commitChangesTarget.path,
             message,
           });
 
           if (commitChangesTarget.type === "commit") {
             try {
-              await window.branchmaster.moveGitBranch({
+              await window.branchtracker.moveGitBranch({
                 repoRoot,
                 branch: commitChangesTarget.branchTarget.branch,
                 oldSha: commitChangesTarget.branchTarget.oldSha,
@@ -5978,7 +5978,7 @@ const CommitHistory = ({
       gitRefCreateText.successMessage,
       async () => {
         try {
-          await window.branchmaster.createGitRef({
+          await window.branchtracker.createGitRef({
             repoRoot,
             gitRefType: gitRefCreateTarget.gitRefType,
             name,
@@ -6022,7 +6022,7 @@ const CommitHistory = ({
       "Created pull request.",
       async () => {
         try {
-          pullRequestUrl = await window.branchmaster.createGitPullRequest({
+          pullRequestUrl = await window.branchtracker.createGitPullRequest({
             repoRoot,
             baseBranch,
             headBranch,
@@ -6053,7 +6053,7 @@ const CommitHistory = ({
     }
 
     try {
-      await window.branchmaster.openExternalUrl(pullRequestUrl);
+      await window.branchtracker.openExternalUrl(pullRequestUrl);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to open pull request.";
@@ -6075,14 +6075,14 @@ const CommitHistory = ({
         try {
           switch (deleteTarget.gitRefType) {
             case "branch":
-              await window.branchmaster.deleteGitBranch({
+              await window.branchtracker.deleteGitBranch({
                 repoRoot,
                 branch: deleteTarget.name,
                 oldSha: deleteTarget.oldSha,
               });
               break;
             case "tag":
-              await window.branchmaster.deleteGitTag({
+              await window.branchtracker.deleteGitTag({
                 repoRoot,
                 tag: deleteTarget.name,
                 oldSha: deleteTarget.oldSha,
@@ -6110,7 +6110,7 @@ const CommitHistory = ({
   };
   const openCodePath = async (path: string) => {
     try {
-      await window.branchmaster.openPath({ path, launcher: pathLauncher });
+      await window.branchtracker.openPath({ path, launcher: pathLauncher });
       trackDesktopAction({
         eventName: "repo_opened",
         properties: { launcher: pathLauncher, source: "commit_history" },
@@ -6133,7 +6133,7 @@ const CommitHistory = ({
     }
 
     try {
-      const preview = await window.branchmaster.previewGitMerge({
+      const preview = await window.branchtracker.previewGitMerge({
         repoRoot,
         branch,
       });
@@ -6163,7 +6163,7 @@ const CommitHistory = ({
       "Merged branch.",
       async () => {
         try {
-          await window.branchmaster.mergeGitBranch({
+          await window.branchtracker.mergeGitBranch({
             repoRoot,
             branch: request.branch,
           });
@@ -6214,7 +6214,7 @@ const CommitHistory = ({
       "Pushed.",
       async () => {
         try {
-          await window.branchmaster.pushGitBranchSyncChanges(branchSyncChanges);
+          await window.branchtracker.pushGitBranchSyncChanges(branchSyncChanges);
           trackDesktopAction({
             eventName: "branches_pushed",
             properties: {
@@ -6249,7 +6249,7 @@ const CommitHistory = ({
       async () => {
         try {
           if (request.gitRefType === "branch") {
-            await window.branchmaster.moveGitBranch({
+            await window.branchtracker.moveGitBranch({
               repoRoot: request.repoRoot,
               branch: request.refName,
               oldSha: request.oldSha,
@@ -6257,7 +6257,7 @@ const CommitHistory = ({
               targetPath: request.targetPath,
             });
           } else {
-            await window.branchmaster.moveGitTag({
+            await window.branchtracker.moveGitTag({
               repoRoot: request.repoRoot,
               tag: request.refName,
               oldSha: request.oldSha,
@@ -6292,7 +6292,7 @@ const CommitHistory = ({
       "Switched HEAD.",
       async () => {
         try {
-          await window.branchmaster.checkoutGitCommit({
+          await window.branchtracker.checkoutGitCommit({
             repoRoot,
             sha: row.commit.sha,
           });
@@ -7024,13 +7024,13 @@ const RepoSection = ({
 const ElectronApiMissingScreen = () => (
   <main className="electron-api-missing-screen">
     <Card className="electron-api-missing-card">
-      <h1>BranchMaster desktop UI</h1>
+      <h1>BranchTracker desktop UI</h1>
       <p>Open this app from Electron.</p>
     </Card>
   </main>
 );
 
-const BranchMasterDesktopApp = () => {
+const BranchTrackerDesktopApp = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null,
   );
@@ -7233,7 +7233,7 @@ const BranchMasterDesktopApp = () => {
   useEffect(() => {
     let didCancel = false;
 
-    void window.branchmaster
+    void window.branchtracker
       .readRepoList()
       .then((repoRoots) => {
         if (!didCancel) {
@@ -7298,7 +7298,7 @@ const BranchMasterDesktopApp = () => {
             pendingDashboardRefreshRepoRootRef.current = null;
 
             try {
-              const nextDashboardData = await window.branchmaster.readDashboard(
+              const nextDashboardData = await window.branchtracker.readDashboard(
                 {
                   repoRoot: nextRepoRoot,
                 },
@@ -7361,7 +7361,7 @@ const BranchMasterDesktopApp = () => {
     let nextDashboardData: DashboardData | null;
 
     try {
-      nextDashboardData = await window.branchmaster.readDashboardIfIdle({
+      nextDashboardData = await window.branchtracker.readDashboardIfIdle({
         repoRoot,
       });
     } catch (error) {
@@ -7392,7 +7392,7 @@ const BranchMasterDesktopApp = () => {
 
       try {
         const nextDashboardData =
-          await window.branchmaster.readDashboardAfterGitMutation();
+          await window.branchtracker.readDashboardAfterGitMutation();
         applyDashboardData(nextDashboardData);
         await new Promise<void>((resolve) => {
           dashboardPaintResolversRef.current.push(resolve);
@@ -7420,9 +7420,9 @@ const BranchMasterDesktopApp = () => {
   useEffect(() => {
     let didCancel = false;
     const stopWatchingAppUpdateStatus =
-      window.branchmaster.watchAppUpdateStatus(setAppUpdateStatus);
+      window.branchtracker.watchAppUpdateStatus(setAppUpdateStatus);
 
-    void window.branchmaster
+    void window.branchtracker
       .readAppUpdateStatus()
       .then((nextAppUpdateStatus) => {
         if (!didCancel) {
@@ -7441,7 +7441,7 @@ const BranchMasterDesktopApp = () => {
   useEffect(() => {
     let didCancel = false;
 
-    void window.branchmaster
+    void window.branchtracker
       .readChatProviderDetections()
       .then((nextChatProviderDetections) => {
         if (!didCancel) {
@@ -7459,7 +7459,7 @@ const BranchMasterDesktopApp = () => {
   }, [isSettingsModalOpen]);
   useEffect(() => {
     const stopWatchingChatThreadStatus =
-      window.branchmaster.watchChatThreadStatus(
+      window.branchtracker.watchChatThreadStatus(
         (codexThreadStatusChange: ChatThreadStatusChange) => {
           codexThreadStatusOfIdRef.current[codexThreadStatusChange.threadId] =
             codexThreadStatusChange.status;
@@ -7513,7 +7513,7 @@ const BranchMasterDesktopApp = () => {
   const fixGithubCredentials = useCallback(async () => {
     try {
       const gitHubCredentialSetupResult =
-        await window.branchmaster.setupGithubCredentialHelper();
+        await window.branchtracker.setupGithubCredentialHelper();
 
       switch (gitHubCredentialSetupResult.type) {
         case "fixed":
@@ -7834,10 +7834,10 @@ const BranchMasterDesktopApp = () => {
         try {
           switch (action) {
             case "push":
-              await window.branchmaster.pushGitBranchSyncChanges(changes);
+              await window.branchtracker.pushGitBranchSyncChanges(changes);
               break;
             case "revert":
-              await window.branchmaster.revertGitBranchSyncChanges(changes);
+              await window.branchtracker.revertGitBranchSyncChanges(changes);
               break;
           }
 
@@ -8004,7 +8004,7 @@ const BranchMasterDesktopApp = () => {
     }
 
     try {
-      await window.branchmaster.openPath({
+      await window.branchtracker.openPath({
         path: selectedRepo.root,
         launcher: pathLauncher,
       });
@@ -8020,7 +8020,7 @@ const BranchMasterDesktopApp = () => {
   };
   const addRepoFromDialog = async () => {
     try {
-      const addedRepoRoot = await window.branchmaster.addRepoFromDialog();
+      const addedRepoRoot = await window.branchtracker.addRepoFromDialog();
 
       if (addedRepoRoot === null) {
         return;
@@ -8036,7 +8036,7 @@ const BranchMasterDesktopApp = () => {
   };
   const removeRepoFromSidebar = async (repoRoot: string) => {
     try {
-      await window.branchmaster.removeRepo(repoRoot);
+      await window.branchtracker.removeRepo(repoRoot);
       trackDesktopAction({ eventName: "repo_removed", properties: {} });
       await refreshDashboard();
     } catch (error) {
@@ -8062,7 +8062,7 @@ const BranchMasterDesktopApp = () => {
     setRepoSidebarContextMenu(null);
 
     try {
-      await window.branchmaster.openPath({
+      await window.branchtracker.openPath({
         path: repoRoot,
         launcher: pathLauncher,
       });
@@ -8100,7 +8100,7 @@ const BranchMasterDesktopApp = () => {
       }
 
       const detectedRepoRoots =
-        await window.branchmaster.redetectChatProviderRepos();
+        await window.branchtracker.redetectChatProviderRepos();
       const addedRepoRoots = detectedRepoRoots.filter(
         (repoRoot) => knownRepoRootOfRoot[repoRoot] !== true,
       );
@@ -8157,16 +8157,16 @@ const BranchMasterDesktopApp = () => {
   const runAppUpdateAction = async () => {
     try {
       if (appUpdateStatus.type === "ready") {
-        await window.branchmaster.quitAndInstallAppUpdate();
+        await window.branchtracker.quitAndInstallAppUpdate();
         return;
       }
 
-      const nextAppUpdateStatus = await window.branchmaster.checkForAppUpdate();
+      const nextAppUpdateStatus = await window.branchtracker.checkForAppUpdate();
       setAppUpdateStatus(nextAppUpdateStatus);
 
       switch (nextAppUpdateStatus.type) {
         case "idle":
-          showSuccessMessage("BranchMaster is up to date.");
+          showSuccessMessage("BranchTracker is up to date.");
           return;
         case "ready":
           showSuccessMessage("Update ready.");
@@ -8182,7 +8182,7 @@ const BranchMasterDesktopApp = () => {
     } catch (error) {
       const message = readCaughtUserFacingErrorMessage({
         error,
-        fallbackMessage: "Failed to update BranchMaster.",
+        fallbackMessage: "Failed to update BranchTracker.",
       });
       showErrorMessage(message);
     }
@@ -8206,7 +8206,7 @@ const BranchMasterDesktopApp = () => {
     loadingRepoRoot !== null && selectedRepo?.root === loadingRepoRoot;
   const emptyRepoDescription =
     dashboardData.gitErrors.length > 0 && dashboardData.threads.length > 0
-      ? "BranchMaster found chats, but Git could not read their folders. " +
+      ? "BranchTracker found chats, but Git could not read their folders. " +
         "They may be deleted, moved, not valid Git worktrees, or blocked by macOS permissions."
       : "No Git repositories found from detected chat sources.";
   const repoHeaderControls = (
@@ -8529,14 +8529,14 @@ const BranchMasterDesktopApp = () => {
                         eventName: "github_clicked",
                         properties: { button_location: "settings" },
                       });
-                      void window.branchmaster.openExternalUrl(
+                      void window.branchtracker.openExternalUrl(
                         GITHUB_REPOSITORY_URL,
                       );
                     }}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    glassdevtools/branchmaster
+                    glassdevtools/branchtracker
                   </a>
                 </dd>
               </div>
@@ -8670,9 +8670,9 @@ const BranchMasterDesktopApp = () => {
 };
 
 export const App = () => {
-  if (window.branchmaster === undefined) {
+  if (window.branchtracker === undefined) {
     return <ElectronApiMissingScreen />;
   }
 
-  return <BranchMasterDesktopApp />;
+  return <BranchTrackerDesktopApp />;
 };

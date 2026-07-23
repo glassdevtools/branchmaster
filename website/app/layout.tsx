@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const siteTitle = "BranchMaster";
+const siteTitle = "BranchTracker";
 const siteDescription = "Sourcetree for your agents.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://branchmaster.dev"),
+  metadataBase: new URL("https://branchtracker.com"),
   title: siteTitle,
   description: siteDescription,
   alternates: {

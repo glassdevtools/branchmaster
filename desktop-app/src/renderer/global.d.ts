@@ -1,9 +1,9 @@
-import type { BranchMasterApi } from "../shared/types";
+import type { BranchTrackerApi } from "../shared/types";
 
 declare module "*.css";
 
 declare global {
   interface Window {
-    branchmaster: BranchMasterApi;
+    branchtracker: BranchTrackerApi;
   }
 }

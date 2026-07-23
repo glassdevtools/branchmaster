@@ -139,10 +139,10 @@ jobs:
       - name: Upload macOS installer
         uses: actions/upload-artifact@v4
         with:
-          name: branchmaster-macos-universal
+          name: branchtracker-macos-universal
           path: |
-            desktop-app/dist/BranchMaster-*.dmg
-            desktop-app/dist/BranchMaster-*.zip
+            desktop-app/dist/BranchTracker-*.dmg
+            desktop-app/dist/BranchTracker-*.zip
             desktop-app/dist/*.blockmap
             desktop-app/dist/latest*.yml
           if-no-files-found: error
@@ -173,10 +173,10 @@ jobs:
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
-          name: branchmaster-windows-x64
+          name: branchtracker-windows-x64
           path: |
-            desktop-app/dist/BranchMaster-*.exe
-            desktop-app/dist/BranchMaster-*.exe.blockmap
+            desktop-app/dist/BranchTracker-*.exe
+            desktop-app/dist/BranchTracker-*.exe.blockmap
             desktop-app/dist/latest*.yml
           if-no-files-found: error
           retention-days: 14
@@ -217,19 +217,19 @@ jobs:
 
           release_assets=()
           for asset_path in \
-            release-artifacts/**/BranchMaster-*.dmg \
-            release-artifacts/**/BranchMaster-*.zip \
-            release-artifacts/**/BranchMaster-*.exe \
+            release-artifacts/**/BranchTracker-*.dmg \
+            release-artifacts/**/BranchTracker-*.zip \
+            release-artifacts/**/BranchTracker-*.exe \
             release-artifacts/**/*.blockmap \
             release-artifacts/**/latest*.yml
           do
             release_assets+=("$asset_path")
           done
 
-          for dmg_path in release-artifacts/**/BranchMaster-*-universal.dmg; do
+          for dmg_path in release-artifacts/**/BranchTracker-*-universal.dmg; do
             for static_asset_path in \
               release-artifacts/latest.dmg \
-              release-artifacts/BranchMaster.dmg
+              release-artifacts/BranchTracker.dmg
             do
               cp "$dmg_path" "$static_asset_path"
               release_assets+=("$static_asset_path")
@@ -237,10 +237,10 @@ jobs:
             break
           done
 
-          for exe_path in release-artifacts/**/BranchMaster-*.exe; do
+          for exe_path in release-artifacts/**/BranchTracker-*.exe; do
             for static_asset_path in \
               release-artifacts/latest.exe \
-              release-artifacts/BranchMaster.exe
+              release-artifacts/BranchTracker.exe
             do
               cp "$exe_path" "$static_asset_path"
               release_assets+=("$static_asset_path")
@@ -255,13 +255,13 @@ jobs:
 
           release_notes_path="$RUNNER_TEMP/release-notes.md"
           cat > "$release_notes_path" <<EOF
-          BranchMaster ${PACKAGE_VERSION}.
+          BranchTracker ${PACKAGE_VERSION}.
 
-          Website: [BranchMaster](https://branchmaster.dev)
+          Website: [BranchTracker](https://branchtracker.com)
 
           | OS | Download |
           | --- | --- |
-          | Mac | [Download for Mac](https://github.com/glassdevtools/branchmaster/releases/download/${RELEASE_TAG}/BranchMaster.dmg) |
+          | Mac | [Download for Mac](https://github.com/glassdevtools/branchtracker/releases/download/${RELEASE_TAG}/BranchTracker.dmg) |
           | Windows | Coming soon... |
           | Linux | Coming soon... |
           EOF

@@ -1,11 +1,11 @@
 {
-  "name": "branchmaster",
-  "version": "0.1.59",
+  "name": "branchtracker",
+  "version": "0.1.60",
   "private": true,
   "author": "Glass Devtools, Inc.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glassdevtools/branchmaster.git"
+    "url": "https://github.com/glassdevtools/branchtracker.git"
   },
   "main": "out/main/main.js",
   "scripts": {

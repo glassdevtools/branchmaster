@@ -1,7 +1,7 @@
 const config = {
-  // TODO: AI-PICKED-VALUE: This bundle id matches the BranchMaster GitHub organization and product name.
-  appId: "com.glassdevtools.branchmaster",
-  productName: "BranchMaster",
+  // TODO: AI-PICKED-VALUE: This bundle id matches the BranchTracker GitHub organization and product name.
+  appId: "com.glassdevtools.branchtracker",
+  productName: "BranchTracker",
   electronVersion: "41.3.0",
   directories: {
     output: "dist",
@@ -17,7 +17,7 @@ const config = {
     {
       provider: "github",
       owner: "glassdevtools",
-      repo: "branchmaster",
+      repo: "branchtracker",
       releaseType: "release",
     },
   ],
@@ -39,11 +39,11 @@ const config = {
       "Contents/Resources/app.asar.unpacked/node_modules/@lydell/node-pty-*/prebuilds/**/*",
     extendInfo: {
       NSDesktopFolderUsageDescription:
-        "BranchMaster needs access to repositories stored on your Desktop so it can read their Git history.",
+        "BranchTracker needs access to repositories stored on your Desktop so it can read their Git history.",
       NSDocumentsFolderUsageDescription:
-        "BranchMaster needs access to repositories stored in Documents so it can read their Git history.",
+        "BranchTracker needs access to repositories stored in Documents so it can read their Git history.",
       NSDownloadsFolderUsageDescription:
-        "BranchMaster needs access to repositories stored in Downloads so it can read their Git history.",
+        "BranchTracker needs access to repositories stored in Downloads so it can read their Git history.",
     },
     hardenedRuntime: true,
     entitlements: "packaging/macos/entitlements.plist",

@@ -1,6 +1,6 @@
-# BranchMaster Website
+# BranchTracker Website
 
-Next.js site for BranchMaster.
+Next.js site for BranchTracker.
 
 Run from the repo root:
 

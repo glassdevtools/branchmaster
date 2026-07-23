@@ -5,7 +5,7 @@ const POSTHOG_PROJECT_TOKEN =
   "phc_rFdSeJdgESyPtJWuULeF8uSHDS87cnGRMAYEW3fZUKN5";
 const POSTHOG_HOST = "https://us.i.posthog.com";
 const POSTHOG_UI_HOST = "https://us.posthog.com";
-const PRIVATE_MODE_STORAGE_KEY = "branchmaster.privateMode";
+const PRIVATE_MODE_STORAGE_KEY = "branchtracker.privateMode";
 
 type DesktopAnalyticsEventName =
   | "branch_created"
@@ -58,7 +58,7 @@ const applyAnalyticsPrivateMode = (isPrivateMode: boolean) => {
   });
   analyticsIdentityPromise = (async () => {
     const analyticsInstallId =
-      await window.branchmaster.readAnalyticsInstallId();
+      await window.branchtracker.readAnalyticsInstallId();
 
     if (readIsAnalyticsPrivateMode()) {
       return;
@@ -153,7 +153,7 @@ export const trackDesktopAppOpened = () => {
 
   void (async () => {
     const desktopRuntimeInfo =
-      await window.branchmaster.readDesktopRuntimeInfo();
+      await window.branchtracker.readDesktopRuntimeInfo();
 
     trackDesktopAction({
       eventName: "desktop_app_opened",
