@@ -479,17 +479,6 @@ h1.heroTitle {
   content: "";
 }
 
-.bulletList strong {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
-  color: #101410;
-  font-size: 1.1rem;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
 .bulletText {
   display: grid;
   gap: 4px;

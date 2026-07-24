@@ -32,31 +32,17 @@ const ChatToken = () => (
 );
 
 const featureItems = [
-  {
-    title: "Everything on a single page",
-    descriptionLines: [
-      "Unlike other Git visualizers, see all your worktrees, even ones with no commits or branch tags yet.",
-    ],
-  },
-  {
-    title: "Git power tools",
-    descriptionLines: [
-      "Commit, branch, merge, and push without leaving the app.",
-      "We let you move branches by dragging, merge by clicking the row you'd like, and get Pull/Push summaries that actually make sense.",
-    ],
-  },
-  {
-    title: "Auto-sync",
-    descriptionLines: [
-      "We auto-detect your chats and Git changes, no action necessary.",
-    ],
-  },
-  {
-    title: "Built-in safety checks",
-    descriptionLines: [
-      "We have strong automatic safety checks when you delete branches, switch HEAD, and more, to make sure you don't lose an important commit.",
-    ],
-  },
+  [
+    "Unlike other Git visualizers, see all your worktrees, even ones with no commits or branch tags yet.",
+  ],
+  [
+    "Commit, branch, merge, and push without leaving the app.",
+    "We let you move branches by dragging, merge by clicking the row you'd like, and get Pull/Push summaries that actually make sense.",
+  ],
+  ["We auto-detect your chats and Git changes, no action necessary."],
+  [
+    "We have strong automatic safety checks when you delete branches, switch HEAD, and more, to make sure you don't lose an important commit.",
+  ],
 ];
 const questionItems = [
   <>Which chats still need to be merged in?</>,
@@ -190,20 +176,13 @@ const HomePage = () => {
             <h2 id="features-title">Features</h2>
           </div>
           <ul className="bulletList">
-            {featureItems.map((featureItem) => (
-              <li key={featureItem.title}>
-                <strong>{featureItem.title}</strong>
-                {featureItem.descriptionLines.length === 0 ? null : (
-                  <div className="bulletText">
-                    {featureItem.descriptionLines.map(
-                      (descriptionLine, index) => (
-                        <p key={`${featureItem.title}-${index}`}>
-                          {descriptionLine}
-                        </p>
-                      ),
-                    )}
-                  </div>
-                )}
+            {featureItems.map((descriptionLines) => (
+              <li key={descriptionLines[0]}>
+                <div className="bulletText">
+                  {descriptionLines.map((descriptionLine) => (
+                    <p key={descriptionLine}>{descriptionLine}</p>
+                  ))}
+                </div>
               </li>
             ))}
           </ul>
